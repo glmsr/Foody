@@ -10,9 +10,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} >
-        <Stack.Screen name="Home" component={CustomDrawer} />
-        <Stack.Screen name="OnBoarding" component={OnBoarding} />
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={'OnBoarding'} >
+      <Stack.Screen name="OnBoarding" component={OnBoarding}/*Home ile yeri değişti */ />
+        <Stack.Screen name="Home" component={MainLayout} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
