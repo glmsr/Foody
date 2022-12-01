@@ -1,7 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { AddCard, Checkout, DeliveryStatus, FoodDetail, ForgotPassword, MainLayout, Map, MyCart, MyCard, OnBoarding, Otp, SignIn, SignUp, Success } from "./screens";
+import { AddCard, Checkout, DeliveryStatus, FoodDetail, ForgotPassword, Map, MyCart, MyCard, OnBoarding, Otp, SignIn, SignUp, Success } from "./screens";
+import CustomDrawer from "./navigation/CustomDrawer";
 
 const Stack = createNativeStackNavigator();
 
@@ -9,8 +10,8 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={'Home'} >
-        <Stack.Screen name="Home" component={MainLayout} />
+      <Stack.Navigator screenOptions={{ headerShown: false }} >
+        <Stack.Screen name="Home" component={CustomDrawer} />
         <Stack.Screen name="OnBoarding" component={OnBoarding} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
