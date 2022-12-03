@@ -69,7 +69,7 @@ const Home = () => {
             <View
             style={{
                 flexDirection: 'row',
-                height: 40,
+                height: 50,
                 alignItems: 'center',
                 marginHorizontal: SIZES.padding,
                 marginVertical: SIZES.base,
@@ -127,7 +127,7 @@ const Home = () => {
           marginTop: 30,
           marginBottom: 20,
         }}
-        renderItem={({ item, index }) => {
+        renderItem={({ item, index }) => (
           <TouchableOpacity
             style={{
               marginLeft: SIZES.padding,
@@ -141,16 +141,16 @@ const Home = () => {
             <Text
               style={{
                 color: selectedMenuType == item.id ? COLORS.primary : COLORS.black,
-                ...FONTS.h3,
+                ...FONTS.h3
               }}
             >
               {item.name}
             </Text>
           </TouchableOpacity>
-        }}
+      )}
       />
   )
-    }
+}
     
     function renderRecommendedSection() {
         return (
@@ -247,8 +247,8 @@ const Home = () => {
 
                 {/* Recommended */}
                 {renderRecommendedSection()}
-            {/* Menu Types */}
-            {renderMenuTypes()}
+                {/* Menu Types */}
+                {renderMenuTypes() }
           </View>
         }
         renderItem={({ item, index }) => {
@@ -258,12 +258,12 @@ const Home = () => {
                 height: 130,
                 alignItems: 'center',
                 marginHorizontal: SIZES.padding,
-                marginBottom: SIZES.radius,
+                marginBottom: SIZES.radius
               }}
               imageStyle={{
                 marginTop: 20,
                 height: 110,
-                width: 110,
+                width: 110
               }}
               item={item}
               onPress={() => console.log("HorizontalFoodCard")}
