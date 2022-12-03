@@ -6,14 +6,7 @@ import { connect } from 'react-redux'
 import { setSelectedTab } from '../stores/tab/tabActions'
 import { Home,  Search,  CartTab,  Favourite,  Notification } from '../screens'
 import { Header } from '../components'
-import {
-  COLORS,
-  FONTS,
-  SIZES,
-  icons,
-  constants,
-  dummyData
-} from '../constants'
+import {COLORS, FONTS, SIZES, icons, constants, dummyData } from '../constants'
 
 const TabButton = ({ label, icon, isFocused, outerContainerStyle, innerContainerStyle, onPress }) => {
   return (
@@ -46,7 +39,7 @@ const TabButton = ({ label, icon, isFocused, outerContainerStyle, innerContainer
             style={{
               width: 20,
               height: 20,
-              tintColor: COLORS.gray
+              tintColor: isFocused ? COLORS.white : COLORS.gray2
             }}
           />
           
@@ -55,7 +48,7 @@ const TabButton = ({ label, icon, isFocused, outerContainerStyle, innerContainer
             numberOfLines={1}
             style={{
               marginLeft: SIZES.base,
-              color: COLORS.gray,
+              color: COLORS.white,
               ...FONTS.h3
               }}
             >
@@ -75,9 +68,17 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
 
   //Reanimated shared value
 
-  const homeTabFlex = searchTabFlex = cartTabFlex = favouriteTabFlex = notificationTabFlex = useSharedValue(1)
-  const homeTabColor = searchTabColor = cartTabColor = favouriteTabColor = notificationTabColor = useSharedValue(COLORS.gray)
-  
+
+  const homeTabFlex = useSharedValue(1)
+  const homeTabColor = useSharedValue(COLORS.white)
+  const searchTabFlex = useSharedValue(1)
+  const searchTabColor = useSharedValue(COLORS.white)
+  const cartTabFlex = useSharedValue(1)
+  const cartTabColor = useSharedValue(COLORS.white)
+  const favouriteTabFlex = useSharedValue(1)
+  const favouriteTabColor = useSharedValue(COLORS.white)
+  const notificationTabFlex = useSharedValue(1)
+  const notificationTabColor = useSharedValue(COLORS.white)
 
   //Reanimated animated style
 
@@ -153,7 +154,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
       homeTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
       homeTabFlex.value = withTiming(1, { duration: 500 })
-      homeTabColor.value = withTiming(COLORS.gray, { duration: 500 })
+      homeTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
 
     if (selectedTab == constants.screens.search) {
@@ -165,7 +166,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
       searchTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
       searchTabFlex.value = withTiming(1, { duration: 500 })
-      searchTabColor.value = withTiming(COLORS.gray, { duration: 500 })
+      searchTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
     
     if (selectedTab == constants.screens.cart) {
@@ -177,7 +178,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
       cartTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
       cartTabFlex.value = withTiming(1, { duration: 500 })
-      cartTabColor.value = withTiming(COLORS.gray, { duration: 500 })
+      cartTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
 
     if (selectedTab == constants.screens.favourite) {
@@ -189,7 +190,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
       favouriteTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
       favouriteTabFlex.value = withTiming(1, { duration: 500 })
-      favouriteTabColor.value = withTiming(COLORS.gray, { duration: 500 })
+      favouriteTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
     
     if (selectedTab == constants.screens.notification) {
@@ -201,7 +202,7 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
       notificationTabColor.value = withTiming(COLORS.primary, { duration: 500 })
     } else {
       notificationTabFlex.value = withTiming(1, { duration: 500 })
-      notificationTabColor.value = withTiming(COLORS.gray, { duration: 500 })
+      notificationTabColor.value = withTiming(COLORS.white, { duration: 500 })
     }
   }, [selectedTab])
 
@@ -236,11 +237,11 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
               alignItems: 'center',
               justifyContent: 'center',
               borderWidth: 1,
-              borderColor: COLORS.gray2,
+              borderColor: COLORS.gray,
               borderRadius: SIZES.radius
             }}
-          >
             onPress={() => navigation.openDrawer()}
+          >
             <Image
             
               source={icons.menu}
@@ -292,16 +293,11 @@ const MainLayout = ({ drawerAnimationStyle, navigation, selectedTab, setSelected
                   width: SIZES.width
                 }}
               >
-                {/* {item.label == constants.screens.home && <Home />}
+                {item.label == constants.screens.home && <Home />}
                 {item.label == constants.screens.search && <Search />}
                 {item.label == constants.screens.cart && <CartTab />}
                 {item.label == constants.screens.favourite && <Favourite />}
-                {item.label == constants.screens.notification && <Notification />} */}
-                {item.label == constants.screens.home ?  <Home/>: null}
-                {item.label == constants.screens.search ? <Search/>: null}
-                {item.label == constants.screens.cart ? <CartTab/>: null}
-                {item.label == constants.screens.favourite ? <Favourite/>: null}
-                {item.label == constants.screens.notification ? <Notification/>: null}
+                {item.label == constants.screens.notification && <Notification />}
               </View>
             )
           }}
@@ -406,6 +402,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)
+
 
 
 
