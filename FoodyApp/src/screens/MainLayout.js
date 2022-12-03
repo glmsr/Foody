@@ -17,8 +17,7 @@ import {
 
 const TabButton = ({ label, icon, isFocused, outerContainerStyle, innerContainerStyle, onPress }) => {
   return (
-    <TouchableWithoutFeedback
-      onPress={onPress}>
+    <TouchableWithoutFeedback onPress={onPress}>
       <Animated.View
         style={[
           {
