@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ImageBackground, Image, Animated } from 'react-native';
 import {constants, images,FONTS,SIZES,COLORS} from "../../constants";
 
-import {TextButton} from '../../components/TextButton';
+import {TextButton} from '../../components/';
 import styles from './OnBoarding.style';
 
 const OnBoarding = ({navigation}) => {

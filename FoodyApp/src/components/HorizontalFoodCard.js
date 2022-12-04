@@ -81,7 +81,7 @@ const HorizontalFoodCard = ({ containerStyle, imageStyle, item, onPress }) => {
                         ...FONTS.body5
                     }}
                 >
-                    {item.calories} Calories
+                    {item.calories} calories
                 </Text>
             </View>
         </TouchableOpacity>
