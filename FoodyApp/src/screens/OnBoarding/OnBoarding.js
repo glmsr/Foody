@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ImageBackground, Image, Animated } from 'react-native';
 import {constants, images,FONTS,SIZES,COLORS} from "../../constants";
 import {TextButton} from '../../components/TextButton';
+import styles from './OnBoarding.style';
 
 const OnBoarding = (navigation) => {
 
@@ -19,11 +20,7 @@ const OnBoarding = (navigation) => {
     const dotPosition=Animated.divide(scrollX,SIZES.width)
 
     return(
-      <View style={{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center'
-      }} >
+      <View style={styles.dot_view} >
       {constants.onboarding_screens.map((item,index) => {
 
         const dotColor=dotPosition.interpolate({
@@ -47,8 +44,7 @@ const OnBoarding = (navigation) => {
             width:dotWidth,
             height:10,
             backgroundColor:dotColor
-          }}
-           />
+          }}/>
         )
       })}
 
@@ -58,46 +54,26 @@ const OnBoarding = (navigation) => {
 
   function renderHeaderLogo(){
     return(
-      <View style={{
-        position:'absolute',
-        top: SIZES.height > 800 ? 50 : 25,
-        left: 0,
-        right:0,
-        alignItems:'center',
-        justifyContent:'center'
-      }}>
+      <View style={styles.headerLogo_view}>
       <Image source={images.logo_02}
       resizeMode='contain'
-      style={{
-        width: SIZES.width * 0.5,
-        height:100
-      }}
+      style={styles.logoImage}
        />
       </View>
     )
   }
   function renderFooter(){
     return(
-      <View style={{
-        height:160
-      }} >
+      <View style={styles.renderFooter_view1} >
       {/*Paggination / Dots */}
-        <View  style={{
-          flex:1,
-          justifyContent:'center'
-        }}>
+        <View  style={styles.renderFooter_view2}>
         <Dots style={{}} />
 
         </View>
 
       {/*Buttons */}
         {currentIndex < constants.onboarding_screens.length-1 &&
-        <View style={{
-          flexDirection:'row',
-          justifyContent:'space-between',
-          paddingHorizontal:SIZES.padding,
-          marginVertical:SIZES.padding
-        }} >
+        <View style={styles.buttons_view} >
           
           <TextButton 
            label='Skip'
@@ -128,10 +104,7 @@ const OnBoarding = (navigation) => {
         </View>
         }
         {currentIndex == constants.onboarding_screens.length -1 &&
-          <View style={{
-            paddingHorizontal:SIZES.padding,
-            marginVertical:SIZES.padding
-          }} >
+          <View style={styles.buttonsContainer_view} >
           <TextButton 
           label="Let's Get Started"
           buttonContainerStyle={{
@@ -148,8 +121,7 @@ const OnBoarding = (navigation) => {
     )
   }
   return (
-    <View style={{flex:1,
-    backgroundColor:COLORS.white}}>
+    <View style={styles.renderHeaderLogo}>
       {renderHeaderLogo()}
       <Animated.FlatList
         ref={flatListRef}
@@ -169,13 +141,8 @@ const OnBoarding = (navigation) => {
         keyExtractor={(item) => `${item.id}`}
         renderItem={({item , index}) =>{
           return(
-            <View style={{
-              width:SIZES.width
-            }}>
-            <View style={{
-                flex:3
-              }} 
-            >
+            <View style={styles.renderHeaderLogo_view1}>
+            <View style={styles.renderFooter_view2}>
             <ImageBackground
             source={item.backgroundImage}
             style={{
@@ -184,36 +151,19 @@ const OnBoarding = (navigation) => {
               justifyContent:'flex-end',
               height:index==1 ? "92.5%" : "100%",
               width:"100%"
-            }}
-            >
+            }}>
               <Image 
               source={item.bannerImage}
               resizeMode="contain"
-              style={{
-                width:SIZES.width *.8,
-                height:SIZES.width * 0.8,
-                marginBottom: -SIZES.padding
-              }}
+              style={styles.renderFooter_Image}
               />
             </ImageBackground>
             </View>
-            <View style={{
-              flex:1,
-              marginTop:30,
-              alignItems:'center',
-              justifyContent:'center',
-              paddingHorizontal: SIZES.radius
-            }} >
-            <Text style={{ ...FONTS.h1, fontSize:25}}>
+            <View style={styles.renderFooter_view3} >
+            <Text style={styles.renderFooter_text1}>
               {item.title}
             </Text>
-            <Text style={{
-              marginTop:SIZES.radius,
-              textAlign:'center',
-              color:COLORS.darkGray,
-              paddingHorizontal:SIZES.padding,
-              ...FONTS.body3
-            }}>
+            <Text style={styles.renderFooter_text2}>
               {item.description}
             </Text>
               
