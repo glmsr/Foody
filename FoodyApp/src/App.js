@@ -1,13 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { AddCard, Checkout, DeliveryStatus, FoodDetail, ForgotPassword, Map, MyCart, MyCard, OnBoarding, Otp, SignIn, SignUp, Success } from "./screens";
+import { AddCard, Checkout, DeliveryStatus, FoodDetail, ForgotPassword, Home, MainLayout, Map, MyCart, MyCard, OnBoarding, Otp, SignIn, SignUp, Success } from "./screens";
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
 import CustomDrawer from "./navigation/CustomDrawer";
-
 const Stack = createNativeStackNavigator();
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
