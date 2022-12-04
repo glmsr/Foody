@@ -1,4 +1,5 @@
 import AddCard from "./Card/AddCard"
+import AuthLayout from "./Authentication/AuthLayout"
 import CartTab from "./Cart/CartTab"
 import Checkout from "./Cart/Checkout"
 import DeliveryStatus from "./Delivery/DeliveryStatus"
@@ -19,6 +20,6 @@ import SignUp from "./Authentication/SignUp"
 import Success from "./Cart/Success"
 
 export {
-    AddCard, CartTab, Checkout, DeliveryStatus, Favourite, FoodDetail, ForgotPassword, Home, MainLayout,
+    AuthLayout, AddCard, CartTab, Checkout, DeliveryStatus, Favourite, FoodDetail, ForgotPassword, Home, MainLayout,
     Map, MyCard, MyCart, Notification, OnBoarding, Otp, Search, SignIn, SignUp, Success
 }
