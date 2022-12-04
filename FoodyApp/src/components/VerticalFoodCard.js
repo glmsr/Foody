@@ -17,27 +17,27 @@ const VerticalFoodCard = ({ containerStyle, item, onPress }) => {
             {/* Calories and Favourite */}
             <View
                 style={{
-                    flex: 1,
                     flexDirection: 'row'
                 }}
             >
-                <Image
-                    source={icons.fire}
-                    style={{
-                        width: 30,
-                        height: 30
-                    }}
-                />
-                <Text
-                    style={{
-                        color: COLORS.darkGray2,
-                        ...FONTS.body5
-                    }}
-                >
-                    {item.calories} cal
-                </Text>
-            </View>
-
+                {/* Calories */}
+                <View style={{ flex: 1, flexDirection: 'row'}}>
+                    <Image
+                        source={icons.calories}
+                        style={{
+                            width: 30,
+                            height: 30
+                        }}
+                    />
+                    <Text
+                        style={{
+                            color: COLORS.darkGray2,
+                            ...FONTS.body5
+                        }}
+                    >
+                        {item.calories} calories
+                    </Text>
+                </View>
             {/* Favourite */}
             <Image
                 source={icons.love}
@@ -46,12 +46,60 @@ const VerticalFoodCard = ({ containerStyle, item, onPress }) => {
                     height: 20,
                     tintColor: item.isFavourite ? COLORS.primary : COLORS.gray
                 }}
-            />
+                />
+            </View>
             
 
             {/* Image */}
+            <View
+                style={{
+                    height: 150,
+                    width: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
 
+                }}
+            >
+                <Image
+                    source={item.image}
+                    style={{
+                        height: '100%',
+                        width: '100%'
+                    }}
+                />
+            </View>
+            
             {/* Info */}
+
+            <View
+                style={{
+                    alignItems: 'center',
+                    marginTop: -20
+                }}
+            >
+                <Text style={{
+                    ...FONTS.h3
+                }}>
+                    {item.name}
+                </Text>
+                {/* Description */}
+                <Text style={{
+                    color: COLORS.darkGray2,
+                    textAlign: 'center',
+                    ...FONTS.body5
+                }}>
+                    {item.description}
+                </Text>
+                {/* Price */}
+                <Text style={{
+                    marginTop: SIZES.radius,
+                    ...FONTS.h2
+                }}>
+                    ${item.price}
+                </Text>
+            </View>
+
+                    
         </TouchableOpacity>
     )
 }

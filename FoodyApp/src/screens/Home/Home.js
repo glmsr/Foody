@@ -163,7 +163,7 @@ const Home = () => {
                     keyExtractor={item => `${item.id}`}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => {
+                    renderItem={({ item, index }) => (
                         <HorizontalFoodCard
                             containerStyle={{
                                 height: 180,
@@ -180,9 +180,9 @@ const Home = () => {
                             }}
                             item={item}
                             onPress={() => console.log("HorizontalFoodCard")}
-                        />
-                    }}
-                />
+                            />
+                            )}
+                          />
                 
             </Section>
             
@@ -200,32 +200,109 @@ const Home = () => {
                     keyExtractor={item => `${item.id}`}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => {
+                    renderItem={({ item, index }) => (
                         <VerticalFoodCard
                             containerStyle={{
                                 marginLeft: index == 0 ? SIZES.padding : 18,
                                 marginRight: index == popular.length - 1 ? SIZES.padding : 0,
-                                height: 180,
-                                width: SIZES.width * 0.85,
-                                paddingRight: SIZES.radius,
-                                alignItems: 'center',
-                            }}
-                            imageStyle={{
-                                marginTop: 35,
-                                height: 150,
-                                width: 150,
+                                padding: 18
                             }}
                             item={item}
                             onPress={() => console.log("VerticalFoodCard")}
                         />
-                    }}
+                    )}
                 />
-                
             </Section>
-            
         )
     }
 
+  function renderFoodCategories() {
+    return (
+      <FlatList
+        data={dummyData.categories}
+        keyExtractor={item => `${item.id}`}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              height: 55,
+              marginTop: SIZES.padding,
+              marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
+              marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0,
+              paddingHorizontal: 8,
+              borderRadius: SIZES.radius,
+              backgroundColor: selectedCategoryId == item.id ? COLORS.primary : COLORS.lightGray2
+            }}
+            onPress={() => {
+              setSelectedCategoryId(item.id)
+              handleChangeCategory(item.id, selectedMenuType)
+            }}
+                
+          >
+            <Image
+              source={item.icon}
+              style={{
+                marginTop: 5,
+                height: 50,
+                width: 50
+              }}
+            />
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginRight: SIZES.base,
+                color: selectedCategoryId == item.id ? COLORS.white : COLORS.darkGray,
+                ...FONTS.h3
+              }}
+            >
+              {item.name}
+           </Text>
+
+            </TouchableOpacity>
+        )}
+      />
+    )
+  }
+
+  function renderDeliveryTo() {
+    return (
+      <View
+        style={{
+          marginTop: SIZES.padding,
+          marginHorizontal: SIZES.padding
+        }}
+      >
+        <Text style={{ color: COLORS.primary, ...FONTS.h3 }}>
+          Delivery to
+        </Text>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            marginTop: SIZES.base,
+            alignItems: 'center'
+          }}
+        >
+          <Text style={{ ...FONTS.h3 }}>
+          {dummyData?.myProfile?.address}
+        </Text>
+          <Image
+            source={icons.down_arrow}
+            style={{
+              marginLeft: SIZES.base,
+              width: 20,
+              height: 20
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  }    
+    
+  
+
+  
   return (
     <View
       style={{
@@ -241,14 +318,18 @@ const Home = () => {
         keyExtractor={(item) => `${item.id}`}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
-            <View>
-                {/* Popluar */}
-                {renderPopularSection()}
+          <View>
+            {/* Delivery to */}
+            {renderDeliveryTo()}
+            {/* Food Categories*/}
+            {renderFoodCategories()}
+            {/* Popluar */}
+            {renderPopularSection()}
 
-                {/* Recommended */}
-                {renderRecommendedSection()}
-                {/* Menu Types */}
-                {renderMenuTypes() }
+            {/* Recommended */}
+            {renderRecommendedSection()}
+            {/* Menu Types */}
+            {renderMenuTypes() }
           </View>
         }
         renderItem={({ item, index }) => {
@@ -270,6 +351,7 @@ const Home = () => {
             />
           )
         }}
+      ListFooterComponent={<View style={{ height: 200 }} />}
       />
       </View>
     )
