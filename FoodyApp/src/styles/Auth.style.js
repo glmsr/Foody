@@ -37,6 +37,14 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: SIZES.padding,
     },
+    signUpContainer: {
+        flex: 1,
+        marginTop: SIZES.padding,
+    },
+    forgotPasswordContainer: {
+        flex: 1,
+        marginTop: SIZES.padding,
+    },
     formInputContainer: {
         marginTop: SIZES.radius,
     },
@@ -119,6 +127,8 @@ const styles = StyleSheet.create({
     googleIconStyle: {
         tintColor: null
     },
+
+
 });
 
 export default styles;
