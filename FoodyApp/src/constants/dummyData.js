@@ -37,7 +37,7 @@ const hotTacos = {
 const vegBiryani = {
     id: 3,
     name: "Veg Biryani",
-    description: "Indian Vegetable Biryani",
+    description: "A simple, easy, and flavorful vegetable biryani recipe made in the Instant pot pressure cooker with layers of spiced vegetables, warm spices, herbs like mint and cilantro, fried onions, and basmati rice.",
     categories: [1, 2, 3],
     price: 10.99,
     calories: 78,
@@ -99,4 +99,4 @@ const fromLocs = [
     { latitude: 1.5573478487252896, longitude: 110.35568783282145, }
 ]
 
-export default { myProfile, categories, menu, sizes, myCart, myCards, allCards, fromLocs }
+export default { myProfile, categories, hamburger, hotTacos, vegBiryani, wrapSandwich, menu, sizes, myCart, myCards, allCards, fromLocs }

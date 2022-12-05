@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import {FONTS,SIZES,COLORS} from "../../constants";
+import {constants, images,FONTS,SIZES,COLORS} from "../constants";
 
 export default StyleSheet.create({
     dot_view:{
@@ -23,7 +23,7 @@ export default StyleSheet.create({
         height:160
     },
     renderFooter_view2:{
-        flex:1,
+        flex:3,
         justifyContent:'center'
     },
     buttons_view:{
