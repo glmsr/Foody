@@ -1,8 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import { FONTS, COLORS } from '../constants';
 
-const TextButton = ({ buttonContainerStyle, label, labelStyle, onPress, disabled }) => {
+const TextButton = ({ buttonContainerStyle, label, labelStyle, loading, onPress, disabled }) => {
     return (
         <TouchableOpacity style={{
             alignItems: 'center',
@@ -10,12 +10,13 @@ const TextButton = ({ buttonContainerStyle, label, labelStyle, onPress, disabled
             backgroundColor: COLORS.primary,
             ...buttonContainerStyle
         }} onPress={onPress} disabled={disabled}>
+
             <Text style={{
                 color: 'white',
                 ...FONTS.h3,
                 ...labelStyle
             }} >
-                {label}
+              { loading ? <ActivityIndicator color={COLORS.white} /> : label }
             </Text>
 
         </TouchableOpacity>
