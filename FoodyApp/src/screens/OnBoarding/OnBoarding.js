@@ -5,7 +5,7 @@ import {constants, images,FONTS,SIZES,COLORS} from "../../constants";
 import {TextButton} from '../../components/';
 import styles from './OnBoarding.style';
 
-const OnBoarding = ({navigation}) => {
+const OnBoarding = ({ navigation }) => {
 
   const scrollX=React.useRef(new Animated.Value(0)).current;
   const flatListRef=React.useRef()
