@@ -1,115 +1,57 @@
-
-import React from 'react'
-import { View, Text, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
-import { HorizontalFoodCard, VerticalFoodCard } from '../../components'
-import { FONTS, SIZES, COLORS, icons, dummyData } from '../../constants'
-
-const Section = ({ title, onPress, children }) => {
-  return (
-    <View>
-      {/* Header */}
-      <View
-        style={{
-          flexDirection: 'row',
-          marginHorizontal: SIZES.padding,
-          marginTop: 30,
-          marginBottom: 20
-        }}
-      >
-        <Text style={{ flex: 1, ...FONTS.h3 }}>{title}</Text>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={{ color: COLORS.primary, ...FONTS.body3 }}>View All</Text>
-        </TouchableOpacity>
-          </View>
-          {/* Content */}
-            {children}
-    </View>
-  )
-}
+import React, {useEffect, useState} from 'react';
+import { View, Text, TouchableOpacity, Image, TextInput, FlatList, } from 'react-native';
+import {HorizontalFoodCard, Section, VerticalFoodCard} from '../../components';
+import {FONTS, SIZES, COLORS, icons, dummyData} from '../../constants';
+import styles from '../../styles/Home.style';
+import database from "@react-native-firebase/database";
 
 const Home = () => {
-    
-    const [selectedCategoryId, setSelectedCategoryId] = React.useState(1)
-    const [selectedMenuType, setSelectedMenuType] = React.useState(1)
-    const [menuList, setMenuList] = React.useState([])
-    const [recommends, setRecommends] = React.useState([])
-    const [popular, setPopular] = React.useState([])
-  
-  
-    
-    React.useEffect(() => {
-        handleChangeCategory(selectedCategoryId, selectedMenuType)
-    }, [])
-    
-    
-    function handleChangeCategory(categoryId, menuTypeId) {
-        // Retrieve the popular menu
-        let selectedPopular = dummyData.menu.find(a => a.name == "Popular")
+  const [menu, setMenu] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(1);
+  const [selectedMenuType, setSelectedMenuType] = useState(1);
+  const [menuList, setMenuList] = useState([]);
+  const [recommends, setRecommends] = useState([]);
+  const [popular, setPopular] = useState([]);
 
-        // Retrieve the recommended menu
-        let selectedRecommend = dummyData.menu.find(a => a.name == "Recommended")
-        
-        // Filter menu based on the menuTypeId
-        let selectedMenu = dummyData.menu.find(a => a.id == menuTypeId)
+  useEffect(() => {
+    handleChangeCategory(selectedCategoryId, selectedMenuType);
+  }, []);
 
-        // Set the popular menu based on the selected categoryId
-        setPopular(selectedPopular?.list.filter(a => a.categories.includes(categoryId)))
-
-        // Set the recommended menu based on the categoryId
-
-        setRecommends(selectedRecommend?.list.filter(a => a.categories.includes(categoryId)))
-
-        // set the menu based on category
-        setMenuList(selectedMenu?.list.filter(a => a.categories.includes(categoryId)))
-    }
-    
-    // Render
-    function renderSearch() {
-        return (
-            <View
-            style={{
-                flexDirection: 'row',
-                height: 50,
-                alignItems: 'center',
-                marginHorizontal: SIZES.padding,
-                marginVertical: SIZES.base,
-                paddingHorizontal: SIZES.radius,
-                borderRadius: SIZES.radius,
-                backgroundColor: COLORS.lightGray2,
-        }}
-        >
-        {/* Icon */}
-        <Image
-          source={icons.search}
-          style={{
-            width: 20,
-            height: 20,
-            tintColor: COLORS.black,
-          }}
-        />
-      
-        {/* Text Input */}
-        <TextInput
-          style={{
-            flex: 1,
-            marginLeft: SIZES.radius,
-            ...FONTS.body3,
-          }}
-          placeholder="Search"
-        />
-
-        {/* Filter Button */}
-        <TouchableOpacity
-        //onPress
-        >
-          <Image
-            source={icons.filter}
-            style={{
-              width: 20,
-              height: 20,
-              tintColor: COLORS.black,
-            }}
-          />
+  async function handleChangeCategory(categoryId, menuTypeId) {
+    await database()
+      .ref(`/categories`)
+      .once('value')
+      .then(snapshot => {
+        setCategories(snapshot.val());
+      });
+    await database()
+      .ref(`/categories/${categoryId}/menu`)
+      .once('value')
+      .then(snapshot => {
+        for(let i = 0; i < snapshot.val().length; i++){
+          if(snapshot.val()[i].id === menuTypeId){
+            setMenuList(snapshot.val()[i].list);
+          }
+          if(snapshot.val()[i].id === 5){
+            setRecommends(snapshot.val()[i].list);
+          }
+          if(snapshot.val()[i].id === 2){
+            setPopular(snapshot.val()[i].list);
+          }
+          setMenu(snapshot.val());
+        }
+      });
+  }
+  // Render
+  function renderSearch() {
+    //onPress >
+    return (
+      <View style={styles.searchContainer}>
+        <Image source={icons.search} style={styles.searchIcon} />
+        <TextInput style={styles.searchInput} placeholder="Search" />
+        <TouchableOpacity >
+        <Image source={icons.filter} style={styles.searchFilterIcon} />
         </TouchableOpacity>
         
 
@@ -120,74 +62,46 @@ const Home = () => {
     return (
       <FlatList
         horizontal
-        data={dummyData.menu}
+        data={menu}
         keyExtractor={item => `${item.id}`}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          marginTop: 30,
-          marginBottom: 20,
-        }}
-        renderItem={({ item, index }) => (
-          <TouchableOpacity
-            style={{
-              marginLeft: SIZES.padding,
-              marginRight: index == dummyData.menu.length - 1 ? SIZES.padding : 0
-            }}
-            onPress={() => {
-              setSelectedMenuType(item.id)
-              handleChangeCategory(selectedCategoryId, item.id)
-            }}
-          >
-            <Text
-              style={{
-                color: selectedMenuType == item.id ? COLORS.primary : COLORS.black,
-                ...FONTS.h3
-              }}
-            >
-              {item.name}
-            </Text>
+        contentContainerStyle={styles.menuTypesContainer}
+        renderItem={({item, index}) => (
+          <TouchableOpacity style={{ marginLeft: SIZES.padding, marginRight:index === menu.length - 1 ? SIZES.padding : 0,}} onPress={() => {setSelectedMenuType(item.id);handleChangeCategory(selectedCategoryId, item.id); }}>
+            <Text style={{ color: selectedMenuType === item.id ? COLORS.primary : COLORS.black,...FONTS.h3,}}> {item.name} </Text>
           </TouchableOpacity>
       )}
       />
-  )
-}
-    
-    function renderRecommendedSection() {
-        return (
-            <Section
-                title="Recommended"
-                onPress={() => console.log("Show all recommended")}
-            >
-                <FlatList
-                    data={recommends}
-                    keyExtractor={item => `${item.id}`}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-                        <HorizontalFoodCard
-                            containerStyle={{
-                                height: 180,
-                                width: SIZES.width * 0.85,
-                                marginLeft: index == 0 ? SIZES.padding : 18,
-                                marginRight: index == recommends.length - 1 ? SIZES.padding : 0,
-                                paddingRight: SIZES.radius,
-                                alignItems: 'center',
-                            }}
-                            imageStyle={{
-                                marginTop: 35,
-                                height: 150,
-                                width: 150,
-                            }}
-                            item={item}
-                            onPress={() => console.log("HorizontalFoodCard")}
-                            />
-                            )}
-                          />
-                
-            </Section>
-            
-        )
-    }
+    );
+  }
+
+  function renderRecommendedSection() {
+    return (
+      <Section title="Recommended"  onPress={() => console.log('Show all recommended')}>
+        <FlatList
+          data={recommends}
+          keyExtractor={item => `${item.id}`}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <HorizontalFoodCard
+              containerStyle={{
+                height: 180,
+                width: SIZES.width * 0.85,
+                marginLeft: index === 0 ? SIZES.padding : 18,
+                marginRight: index === recommends.length - 1 ? SIZES.padding : 0,
+                paddingRight: SIZES.radius,
+                alignItems: 'center',
+              }}
+              imageStyle={styles.recommendedImage}
+              item={item}
+              onPress={() => console.log('HorizontalFoodCard')}
+            />
+          )}
+        />
+      </Section>
+    );
+  }
 
     function renderPopularSection() {
         return (
@@ -219,7 +133,7 @@ const Home = () => {
   function renderFoodCategories() {
     return (
       <FlatList
-        data={dummyData.categories}
+        data={categories}
         keyExtractor={item => `${item.id}`}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -229,38 +143,16 @@ const Home = () => {
               flexDirection: 'row',
               height: 55,
               marginTop: SIZES.padding,
-              marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
-              marginRight: index == dummyData.categories.length - 1 ? SIZES.padding : 0,
+              marginLeft: index === 0 ? SIZES.padding : SIZES.radius,
+              marginRight: index === categories.length - 1 ? SIZES.padding : 0,
               paddingHorizontal: 8,
               borderRadius: SIZES.radius,
-              backgroundColor: selectedCategoryId == item.id ? COLORS.primary : COLORS.lightGray2
+              backgroundColor: selectedCategoryId === item.id  ? COLORS.primary : COLORS.lightGray2,
             }}
-            onPress={() => {
-              setSelectedCategoryId(item.id)
-              handleChangeCategory(item.id, selectedMenuType)
-            }}
-                
-          >
-            <Image
-              source={item.icon}
-              style={{
-                marginTop: 5,
-                height: 50,
-                width: 50
-              }}
-            />
-            <Text
-              style={{
-                alignSelf: 'center',
-                marginRight: SIZES.base,
-                color: selectedCategoryId == item.id ? COLORS.white : COLORS.darkGray,
-                ...FONTS.h3
-              }}
-            >
-              {item.name}
-           </Text>
-
-            </TouchableOpacity>
+            onPress={() => { setSelectedCategoryId(item.id);  handleChangeCategory(item.id, selectedMenuType);}}>
+            <Image source={{uri: item.icon }} style={styles.categoryImage} />
+            <Text style={{  alignSelf: 'center',  marginRight: SIZES.base, color: selectedCategoryId === item.id ? COLORS.white : COLORS.darkGray, ...FONTS.h3, }}>{item.name}</Text>
+          </TouchableOpacity>
         )}
       />
     )
@@ -304,35 +196,22 @@ const Home = () => {
 
   
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
-      {/* Search */}
+    <View style={ styles.homeContainer}>
       {renderSearch()}
-
-      {/* List */}
       <FlatList
         data={menuList}
         keyExtractor={(item) => `${item.id}`}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View>
-            {/* Delivery to */}
             {renderDeliveryTo()}
-            {/* Food Categories*/}
             {renderFoodCategories()}
-            {/* Popluar */}
             {renderPopularSection()}
-
-            {/* Recommended */}
             {renderRecommendedSection()}
-            {/* Menu Types */}
-            {renderMenuTypes() }
+            {renderMenuTypes()}
           </View>
         }
-        renderItem={({ item, index }) => {
+        renderItem={({item}) => {
           return (
             <HorizontalFoodCard
               containerStyle={{
@@ -360,16 +239,3 @@ const Home = () => {
 
 
 export default Home
-
-//IF EVERYTHING FAILS, RUN THESE INSTEAD
-// import React from 'react';
-// import { View, Text } from 'react-native';
-// const Home = () => {
-//     return (
-//         <View>
-//             <Text>Home</Text>
-//         </View>
-//     )
-// }
-// export default Home
-
