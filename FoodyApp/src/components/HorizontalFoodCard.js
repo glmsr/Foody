@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, Image } from 'react-native';
+import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
 
 import { COLORS, FONTS, icons, SIZES } from '../constants';
 
@@ -8,81 +8,16 @@ import { COLORS, FONTS, icons, SIZES } from '../constants';
 
 const HorizontalFoodCard = ({ containerStyle, imageStyle, item, onPress }) => {
     return (
-        <TouchableOpacity
-            style={{
-                flexDirection: 'row',
-                borderRadius: SIZES.radius,
-                backgroundColor: COLORS.lightGray2,
-                ...containerStyle
-            }}
-        >
-            {/* Image */}
-            <Image
-                source={item.image}
-                style={ imageStyle }
-            />
-
-            {/* Info */}
-            <View
-                style={{
-                    flex: 1
-                }}
-            >
-                {/* Name */}
-                <Text
-                    style={{
-                        ...FONTS.h3,
-                        fontSize: 17
-                    }}
-                >
-                    {item.name}
-                </Text>
-
-                {/* Description */}
-                <Text
-                    style={{
-                        color: COLORS.darkGray2,
-                        ...FONTS.body4
-                    }}
-                >
-                    {item.description}
-                </Text>
-
-                {/* Price */}
-                <Text
-                    style={{
-                        marginTop: SIZES.base,
-                        ...FONTS.h2
-                    }}
-                >
-                    ${item.price}
-                </Text>
+        <TouchableOpacity style={[styles.container, containerStyle]} onPress={onPress}>
+            <Image source={{ uri: item.image }} style={ imageStyle } />
+            <View style={{ flex: 1 }}>
+                <Text style={styles.title}>{item.name}</Text>
+                <Text style={styles.description}>{item.description}</Text>
+                <Text style={styles.price}>${item.price}</Text>
             </View>
-
-            {/* Calories */}
-            <View
-                style={{
-                    flexDirection: 'row',
-                    position: 'absolute',
-                    top: 5,
-                    right: SIZES.radius
-                }}
-            >
-                <Image
-                    source={icons.calories}
-                    style={{
-                        width: 30,
-                        height: 30,
-                    }}
-                />
-                <Text
-                    style={{
-                        color: COLORS.darkGray2,
-                        ...FONTS.body5
-                    }}
-                >
-                    {item.calories} calories
-                </Text>
+            <View style={styles.caloriesContainer}>
+                <Image source={icons.calories} style={styles.caloriesIcon} />
+                <Text style={styles.caloriesText}>{item.calories} calories</Text>
             </View>
         </TouchableOpacity>
     )
@@ -90,14 +25,36 @@ const HorizontalFoodCard = ({ containerStyle, imageStyle, item, onPress }) => {
 
 export default HorizontalFoodCard;
 
-// IF EVERYTHING FAILS, RUN THESE INSTEAD
-// import React from 'react';
-// import { View, Text } from 'react-native';
-// const HorizontalFoodCard = () => {
-//     return (
-//         <View>
-//             <Text>HorizontalFoodCard</Text>
-//         </View>
-//     )
-// }
-// export default HorizontalFoodCard
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.lightGray2,
+  },
+  title: {
+    ...FONTS.h3,
+    fontSize: 17
+  },
+  description: {
+    color: COLORS.darkGray2,
+    ...FONTS.body4
+  },
+  price: {
+    marginTop: SIZES.base,
+    ...FONTS.h2
+  },
+  caloriesContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 5,
+    right: SIZES.radius
+  },
+  caloriesIcon: {
+    width: 30,
+    height: 30,
+  },
+  caloriesText: {
+    color: COLORS.darkGray2,
+    ...FONTS.body5
+  },
+})

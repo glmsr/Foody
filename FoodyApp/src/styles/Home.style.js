@@ -1,21 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {FONTS, SIZES, COLORS, icons, dummyData} from '../constants';
+import {FONTS, SIZES, COLORS} from '../constants';
 
 const styles = StyleSheet.create({
-  sectionHeader: {
-    flexDirection: 'row',
-    marginHorizontal: SIZES.padding,
-    marginTop: 30,
-    marginBottom: 20,
-  },
-  sectionHeaderTitle: {
-    flex: 1,
-    ...FONTS.h3,
-  },
-  sectionHeaderTextButton: {
-    color: COLORS.primary,
-    ...FONTS.body3,
-  },
   searchContainer: {
     flexDirection: 'row',
     height: 50,

@@ -1,23 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput, FlatList, } from 'react-native';
-import {HorizontalFoodCard, VerticalFoodCard} from '../../components';
+import {HorizontalFoodCard, Section, VerticalFoodCard} from '../../components';
 import {FONTS, SIZES, COLORS, icons, dummyData} from '../../constants';
 import styles from '../../styles/Home.style';
-const Section = ({title, onPress, children}) => {
-  return (
-    <View>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionHeaderTitle}>{title}</Text>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={styles.sectionHeaderTextButton}>View All</Text>
-        </TouchableOpacity>
-      </View>
-      {children}
-    </View>
-  );
-};
+import database from "@react-native-firebase/database";
 
 const Home = () => {
+  const [menu, setMenu] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);
   const [selectedMenuType, setSelectedMenuType] = useState(1);
   const [menuList, setMenuList] = useState([]);
@@ -28,26 +18,31 @@ const Home = () => {
     handleChangeCategory(selectedCategoryId, selectedMenuType);
   }, []);
 
-  function handleChangeCategory(categoryId, menuTypeId) {
-    // Retrieve the popular menu
-    let selectedPopular = dummyData.menu.find(a => a.name === 'Popular');
-
-    // Retrieve the recommended menu
-    let selectedRecommend = dummyData.menu.find(a => a.name === 'Recommended');
-
-    // Filter menu based on the menuTypeId
-    let selectedMenu = dummyData.menu.find(a => a.id === menuTypeId);
-
-    // Set the popular menu based on the selected categoryId
-    setPopular(selectedPopular?.list.filter(a => a.categories.includes(categoryId)),);
-
-    // Set the recommended menu based on the categoryId
-    setRecommends(selectedRecommend?.list.filter(a => a.categories.includes(categoryId)),);
-
-    // set the menu based on category
-    setMenuList(selectedMenu?.list.filter(a => a.categories.includes(categoryId)),);
+  async function handleChangeCategory(categoryId, menuTypeId) {
+    await database()
+      .ref(`/categories`)
+      .once('value')
+      .then(snapshot => {
+        setCategories(snapshot.val());
+      });
+    await database()
+      .ref(`/categories/${categoryId}/menu`)
+      .once('value')
+      .then(snapshot => {
+        for(let i = 0; i < snapshot.val().length; i++){
+          if(snapshot.val()[i].id === menuTypeId){
+            setMenuList(snapshot.val()[i].list);
+          }
+          if(snapshot.val()[i].id === 5){
+            setRecommends(snapshot.val()[i].list);
+          }
+          if(snapshot.val()[i].id === 2){
+            setPopular(snapshot.val()[i].list);
+          }
+          setMenu(snapshot.val());
+        }
+      });
   }
-
   // Render
   function renderSearch() {
     //onPress >
@@ -65,12 +60,12 @@ const Home = () => {
     return (
       <FlatList
         horizontal
-        data={dummyData.menu}
+        data={menu}
         keyExtractor={item => `${item.id}`}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.menuTypesContainer}
         renderItem={({item, index}) => (
-          <TouchableOpacity style={{ marginLeft: SIZES.padding, marginRight:index === dummyData.menu.length - 1 ? SIZES.padding : 0,}} onPress={() => {setSelectedMenuType(item.id);handleChangeCategory(selectedCategoryId, item.id); }}>
+          <TouchableOpacity style={{ marginLeft: SIZES.padding, marginRight:index === menu.length - 1 ? SIZES.padding : 0,}} onPress={() => {setSelectedMenuType(item.id);handleChangeCategory(selectedCategoryId, item.id); }}>
             <Text style={{ color: selectedMenuType === item.id ? COLORS.primary : COLORS.black,...FONTS.h3,}}> {item.name} </Text>
           </TouchableOpacity>
         )}
@@ -125,7 +120,7 @@ const Home = () => {
   function renderFoodCategories() {
     return (
       <FlatList
-        data={dummyData.categories}
+        data={categories}
         keyExtractor={item => `${item.id}`}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -136,13 +131,13 @@ const Home = () => {
               height: 55,
               marginTop: SIZES.padding,
               marginLeft: index === 0 ? SIZES.padding : SIZES.radius,
-              marginRight: index === dummyData.categories.length - 1 ? SIZES.padding : 0,
+              marginRight: index === categories.length - 1 ? SIZES.padding : 0,
               paddingHorizontal: 8,
               borderRadius: SIZES.radius,
               backgroundColor: selectedCategoryId === item.id  ? COLORS.primary : COLORS.lightGray2,
             }}
             onPress={() => { setSelectedCategoryId(item.id);  handleChangeCategory(item.id, selectedMenuType);}}>
-            <Image source={item.icon} style={styles.categoryImage} />
+            <Image source={{uri: item.icon }} style={styles.categoryImage} />
             <Text style={{  alignSelf: 'center',  marginRight: SIZES.base, color: selectedCategoryId === item.id ? COLORS.white : COLORS.darkGray, ...FONTS.h3, }}>{item.name}</Text>
           </TouchableOpacity>
         )}
