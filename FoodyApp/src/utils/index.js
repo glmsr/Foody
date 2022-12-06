@@ -1,3 +1,4 @@
+import authErrorMessageParser from "./authErrorMessageParser";
 import utils from "./Utils";
 
-export { utils }
+export { authErrorMessageParser, utils }
