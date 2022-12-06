@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { TouchableOpacity, Text } from 'react-native';
 import { FONTS, COLORS } from '../constants';
 
 const TextButton = ({ buttonContainerStyle, label, label2 = '', labelStyle, label2Style, onPress, disabled }) => {
@@ -37,15 +37,3 @@ const TextButton = ({ buttonContainerStyle, label, label2 = '', labelStyle, labe
     );
 }
 export default TextButton;
-
-const styles = StyleSheet.create({
-    container: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: COLORS.primary,
-    },
-    label: {
-      color: 'white',
-      ...FONTS.h3,
-    },
-});
