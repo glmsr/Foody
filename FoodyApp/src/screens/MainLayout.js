@@ -286,4 +286,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)
 //     </View>
 //   )
 // }
-// export default MainLayout
+// export default MainLayout 

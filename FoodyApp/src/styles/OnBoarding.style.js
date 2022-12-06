@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import {constants, images,FONTS,SIZES,COLORS} from "../../constants";
+import {constants, images,FONTS,SIZES,COLORS} from "../constants";
 
 export default StyleSheet.create({
     dot_view:{
