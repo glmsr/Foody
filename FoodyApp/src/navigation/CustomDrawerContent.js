@@ -1,12 +1,29 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { constants, dummyData, icons } from '../constants';
 import CustomDrawerItem from './CustomDrawerItem';
-import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth'
+import database from '@react-native-firebase/database'
 import styles from '../styles/CustomDrawer.style'
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
+
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        getUsername()
+    }, [])
+
+    async function getUsername(){
+        const uid = auth().currentUser.uid;
+        await database()
+            .ref(`/users/${uid}`)
+            .once('value')
+            .then(snapshot => {
+                setUser(snapshot.val().username)
+        })
+    }
 
     const handleLogout = () => {
         auth()
@@ -22,9 +39,9 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.profileButton} onPress={() => console.log('profile')}>
-                    <Image source={icons.profile} style={styles.profileIcon} />
+                    <Image source={dummyData.myProfile.profile_image} style={styles.profileIcon} />
                     <View style={styles.profileView}>
-                        <Text style={styles.profileText}>{dummyData.myProfile.name}</Text>
+                        <Text style={styles.profileText}>{user}</Text>
                         <Text style={styles.profileLink}>View your profile</Text>
                     </View>
                 </TouchableOpacity>

@@ -1,25 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../constants';
+import {COLORS, SIZES} from '../constants';
 
 const styles = StyleSheet.create({
-  tabMainContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    width: '80%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25,
-  },
-  tabText: {
-    color: COLORS.white,
-    marginLeft: SIZES.base,
-    ...FONTS.h3,
-  },
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
@@ -78,9 +60,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: COLORS.white
   }
-
-
-
 });
 
 export default styles;
