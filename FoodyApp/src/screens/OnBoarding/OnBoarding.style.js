@@ -23,7 +23,7 @@ export default StyleSheet.create({
         height:160
     },
     renderFooter_view2:{
-        flex:1,
+        flex:3,
         justifyContent:'center'
     },
     buttons_view:{
