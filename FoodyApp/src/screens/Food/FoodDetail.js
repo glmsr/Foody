@@ -2,13 +2,14 @@ import React from 'react';
 import { View, Text, Image, ScrollView} from 'react-native';
 
 import {FONTS, COLORS, SIZES, icons, images, dummyData} from '../../constants';
-import {Header, TextButton, IconButton, CardQuantityButton, IconLabel} from '../../components'
+import {Header, TextButton, IconButton, CardQuantityButton, IconLabel, LineDivider, Rating, StepperInput} from '../../components'
 
 
-const FoodDetail = () => {
+const FoodDetail = ({navigation}) => {
 
   const [foodItem, setFoodItem]= React.useState(dummyData.vegBiryani)
-  const[selectedSize, setSelectedSize]= React.useState(0)
+  const [selectedSize, setSelectedSize] = React.useState(0)
+  const [qty, setQty] = React.useState(1)
 
   function renderHeader(){
     return(
@@ -205,6 +206,82 @@ const FoodDetail = () => {
       </View>
     )
   }
+
+  function renderRestaurant() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          marginVertical: SIZES.padding,
+          paddingHorizontal: SIZES.padding,
+          alignItems: 'center',
+        }}
+      >
+        <Image
+          source={images.profile}
+          style={{width: 50, height: 50, borderRadius: SIZES.radius}}
+        />
+        
+        {/* Info */}
+        <View style={{flex: 1, marginLeft: SIZES.radius, justifyContent: 'center'}}>
+        <Text style={{...FONTS.h3 }}>FoodyApp user</Text>
+        <Text>1.2 km away from you</Text>
+        </View>
+
+        {/* Ratings */}
+        <Rating
+          rating={4}
+          iconStyle={{
+            marginLeft: 3
+          }}
+        >
+
+        </Rating>
+
+      </View>
+    )
+  }
+
+  function renderFooter() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          height: 120,
+          alignItems: 'center',
+          paddingHorizontal: SIZES.padding,
+          paddingBottom: SIZES.radius
+        }}
+      >
+        {/* Stepper Input */}
+        <StepperInput
+          value={qty}
+          onAdd={() => setQty(qty + 1)}
+          onMinus={() => {
+            if (qty > 1)  setQty(qty - 1) 
+          }}
+        />
+
+        {/* Text Button */}
+        <TextButton
+          buttonContainerStyle={{
+            flex: 1,
+            flexDirection: 'row',
+            height: 60,
+            marginLeft: SIZES.radius,
+            paddingHorizontal: SIZES.radius,
+            borderRadius: SIZES.radius,
+            backgroundColor: COLORS.primary
+          }}
+          label="Buy Now"
+          label2="$20.00"
+          onPress={() => navigation.navigate('MyCart')}
+          
+        />
+      </View>
+      )
+    }
+  
   return (
     <View style={{
       flex:1,
@@ -219,11 +296,18 @@ const FoodDetail = () => {
         {/*Food Details*/}
         {renderDetails()}
 
+        {/*Line Divider */}
+        <LineDivider />
+
         {/*Restaurant*/}
+        {renderRestaurant()}
+        <LineDivider />
+
       </ScrollView>
 
 
       {/*Footer Section */}
+      {renderFooter()}
     </View>
   )
 }
