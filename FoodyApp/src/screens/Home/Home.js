@@ -232,10 +232,9 @@ const Home = () => {
         }}
       ListFooterComponent={<View style={{ height: 200 }} />}
       />
-      </View>
-    )
-  }
-
-
+    </View>
+  );
+};
 
 export default Home
+
