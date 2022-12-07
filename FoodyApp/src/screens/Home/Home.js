@@ -4,6 +4,7 @@ import {HorizontalFoodCard, Section, VerticalFoodCard} from '../../components';
 import {FONTS, SIZES, COLORS, icons, dummyData} from '../../constants';
 import styles from '../../styles/Home.style';
 import database from "@react-native-firebase/database";
+import FilterModal from "./FilterModal";
 
 const Home = () => {
   const [menu, setMenu] = useState([]);
@@ -13,7 +14,7 @@ const Home = () => {
   const [menuList, setMenuList] = useState([]);
   const [recommends, setRecommends] = useState([]);
   const [popular, setPopular] = useState([]);
-
+  const [showFilterModal, setShowFilterModal] = useState(false);
   useEffect(() => {
     handleChangeCategory(selectedCategoryId, selectedMenuType);
   }, []);
@@ -56,7 +57,7 @@ const Home = () => {
       <View style={styles.searchContainer}>
         <Image source={icons.search} style={styles.searchIcon} />
         <TextInput style={styles.searchInput} placeholder="Search" />
-        <TouchableOpacity >
+        <TouchableOpacity onPress={() => setShowFilterModal(true)}>
         <Image source={icons.filter} style={styles.searchFilterIcon} />
         </TouchableOpacity>
       </View>
@@ -166,6 +167,7 @@ const Home = () => {
   return (
     <View style={ styles.homeContainer}>
       {renderSearch()}
+      {showFilterModal && <FilterModal isVisible={showFilterModal} onClose={() => setShowFilterModal(false)} />}
       <FlatList
         data={menuList}
         keyExtractor={item => `${item.id}`}
