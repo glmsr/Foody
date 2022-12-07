@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { FONTS, COLORS } from '../constants';
 
 const TextButton = ({ buttonContainerStyle, label, loading, label2 = '', labelStyle, label2Style, onPress, disabled }) => {

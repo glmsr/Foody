@@ -4,6 +4,7 @@ import CartTab from "./Cart/CartTab"
 import Checkout from "./Cart/Checkout"
 import DeliveryStatus from "./Delivery/DeliveryStatus"
 import Favourite from "./Favourite/Favourite";
+import FilterModal from "./Home/FilterModal"
 import FoodDetail from "./Food/FoodDetail"
 import ForgotPassword from "./Authentication/ForgotPassword"
 import Home from "./Home/Home"
@@ -20,6 +21,6 @@ import SignUp from "./Authentication/SignUp"
 import Success from "./Cart/Success"
 
 export {
-    AuthLayout, AddCard, CartTab, Checkout, DeliveryStatus, Favourite, FoodDetail, ForgotPassword, Home, Loading,
+    AuthLayout, AddCard, CartTab, Checkout, DeliveryStatus, Favourite, FilterModal, FoodDetail, ForgotPassword, Home, Loading,
     MainLayout, Map, MyCard, MyCart, Notification, OnBoarding, Search, SignIn, SignUp, Success
 }

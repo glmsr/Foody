@@ -61,7 +61,7 @@ const tags = [
     { id: 5, label: "Dessert" },
     { id: 6, label: "Breakfast" },
     { id: 7, label: "Vegetable" },
-    { id: 8, label: "Taccos" }
+    { id: 8, label: "Tacos" }
 ]
 const track_order_status = [
     { id: 1, title: "Order Confirmed", sub_title: "Your order has been received" },
