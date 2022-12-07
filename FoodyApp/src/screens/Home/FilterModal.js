@@ -4,7 +4,7 @@ import { View, Text, Animated, ScrollView, TouchableWithoutFeedback, Modal } fro
 import { IconButton, TextButton, TextIconButton, TwoPointSlider } from '../../components';
 import { COLORS, FONTS, SIZES, constants, icons } from '../../constants';
 
-const Section = ({ containerStyle, title, children }) => { 
+const Section = ({ containerStyle, title, children }) => {
     return (
         <View
             style={{
@@ -31,7 +31,7 @@ const FilterModal = ({ isVisible, onClose }) => {
 
     const [tags, setTags] = React.useState("")
 
-    React.useEffect(() => { 
+    React.useEffect(() => {
         if (showFilterModal) {
             Animated.timing(modalAnimatedValue, {
                 toValue: 1,
@@ -93,18 +93,18 @@ const FilterModal = ({ isVisible, onClose }) => {
                             <TextButton
                                 key={`delivery_time-${index}`}
                                 label={item.label}
-                                labelStyle={{ color: item.id == deliveryTime ? COLORS.white : COLORS.gray, ...FONTS.body3 }}
+                                labelStyle={{ color: item.id === deliveryTime ? COLORS.white : COLORS.gray, ...FONTS.body3 }}
                                 buttonContainerStyle={{
                                     width: '30%',
                                     height: 50,
                                     margin: 5,
                                     alignItems: 'center',
                                     borderRadius: SIZES.base,
-                                    backgroundColor: item.id == deliveryTime ? COLORS.primary : COLORS.lightGray2
-                                
+                                    backgroundColor: item.id === deliveryTime ? COLORS.primary : COLORS.lightGray2
+
                                 }}
                                 onPress={() => setDeliveryTime(item.id)}
-                                    
+
                             />
                         )
                     })}
@@ -133,7 +133,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                 </View>
             </Section>
         )
-    
+
     }
 
     function renderRatings() {
@@ -160,14 +160,14 @@ const FilterModal = ({ isVisible, onClose }) => {
                                     margin: 5,
                                     alignItems: 'center',
                                     borderRadius: SIZES.base,
-                                    backgroundColor: item.id == ratings ? COLORS.primary : COLORS.lightGray2
+                                    backgroundColor: item.id === ratings ? COLORS.primary : COLORS.lightGray2
                                 }}
                                 label={item.label}
-                                labelStyle={{ color: item.id == ratings ? COLORS.white : COLORS.gray }}
+                                labelStyle={{ color: item.id === ratings ? COLORS.white : COLORS.gray }}
                                 icon={icons.star}
                                 iconPosition = "RIGHT"
                                 iconStyle={{
-                                    tintColor: item.id == ratings ? COLORS.white : COLORS.gray
+                                    tintColor: item.id === ratings ? COLORS.white : COLORS.gray
                                 }}
                                 onPress={() => setRatings(item.id)}
                             />
@@ -195,7 +195,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                             <TextButton
                                 key={`tags-${index}`}
                                 label={item.label}
-                                labelStyle={{ color: item.id == tags ? COLORS.white : COLORS.gray, ...FONTS.body3 }}
+                                labelStyle={{ color: item.id === tags ? COLORS.white : COLORS.gray, ...FONTS.body3 }}
                                 buttonContainerStyle={{
                                     width: '30%',
                                     height: 50,
@@ -203,8 +203,8 @@ const FilterModal = ({ isVisible, onClose }) => {
                                     paddingHorizontal: SIZES.padding,
                                     alignItems: 'center',
                                     borderRadius: SIZES.base,
-                                    backgroundColor: item.id == tags ? COLORS.primary : COLORS.lightGray2
-                                
+                                    backgroundColor: item.id === tags ? COLORS.primary : COLORS.lightGray2
+
                                 }}
                                 onPress={() => setTags(item.id)}
                             />
@@ -212,7 +212,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                      })}
                 </View>
             </Section>
-       ) 
+       )
     }
 
     return (
@@ -240,9 +240,9 @@ const FilterModal = ({ isVisible, onClose }) => {
                             right: 0
                         }}
                     />
-                    
+
                 </TouchableWithoutFeedback>
-                
+
                 <Animated.View
                     style={{
                         position: 'absolute',
@@ -260,7 +260,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                     <View
                         style={{
                             flexDirection: 'row',
-                            alignItems: 'center' 
+                            alignItems: 'center'
                         }}
                     >
                         <Text style={{ flex: 1, ...FONTS.h3, fontSize: 18 }}>Filters</Text>
@@ -286,7 +286,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                     >
                         {/* Distance */}
                         {renderDistance()}
-                        
+
                         {/* Delivery Time */}
                         {renderDeliveryTime()}
 
@@ -298,13 +298,13 @@ const FilterModal = ({ isVisible, onClose }) => {
 
                         {/* Tags */}
                         {renderTags()}
-                        
+
                     </ScrollView>
                     {/* Apply Button */}
                     <View
                         style={{
                             position: 'absolute',
-                            bottom: 150,
+                            bottom: 0,
                             left: 0,
                             right: 0,
                             height: 110,
@@ -329,7 +329,7 @@ const FilterModal = ({ isVisible, onClose }) => {
                 </Animated.View>
             </View>
         </Modal>
-                    
+
 
     )
 }

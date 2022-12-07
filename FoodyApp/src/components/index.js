@@ -11,10 +11,11 @@ import LineDivider from './LineDivider';
 import SocialButton from './SocialButton';
 import TabButton from "./TabButton";
 import TextButton from './TextButton';
-import TextIconButton from './TextIconButton';
+import TextIconButton from './TextIconButton'
+import TwoPointSlider from "./TwoPointSlider";
 import Rating from './Rating';
 import StepperInput from './StepperInput';
 import VerticalFoodCard from './VerticalFoodCard';
 
-export { CustomSwitch, FormInput, Header,IconButton, CardQuantityButton, IconLabel, LineDivider, HorizontalFoodCard, SocialButton, TextButton, TextIconButton, Rating, StepperInput, VerticalFoodCard };
+export { CustomSwitch, FormInput, Header,IconButton, CardQuantityButton, IconLabel, LineDivider, HorizontalFoodCard, Section, SocialButton, TabButton, TextButton, TextIconButton, TwoPointSlider, Rating, StepperInput, VerticalFoodCard };
 
