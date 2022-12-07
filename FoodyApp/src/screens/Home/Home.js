@@ -9,7 +9,7 @@ const Home = () => {
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);
-  const [selectedMenuType, setSelectedMenuType] = useState(1);
+  const [selectedMenuType, setSelectedMenuType] = useState(0);
   const [menuList, setMenuList] = useState([]);
   const [recommends, setRecommends] = useState([]);
   const [popular, setPopular] = useState([]);
@@ -27,8 +27,7 @@ const Home = () => {
       });
     await database()
       .ref(`/categories/${categoryId}/menu`)
-      .once('value')
-      .then(snapshot => {
+      .on('value', snapshot => {
         for(let i = 0; i < snapshot.val().length; i++){
           if(snapshot.val()[i].id === menuTypeId){
             setMenuList(snapshot.val()[i].list);
@@ -41,6 +40,13 @@ const Home = () => {
           }
           setMenu(snapshot.val());
         }
+      });
+  }
+  async function handleFavourite(item) {
+    await database()
+      .ref(`/categories/${selectedCategoryId}/menu/2/list/${item.id}/`)
+      .update({
+        isFavourite: !item.isFavourite,
       });
   }
   // Render
@@ -110,7 +116,7 @@ const Home = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
-            <VerticalFoodCard containerStyle={{ marginLeft: index === 0 ? SIZES.padding : 18,  marginRight: index === popular.length - 1 ? SIZES.padding : 0, padding: 18, }} item={item} onPress={() => console.log('VerticalFoodCard')} />
+            <VerticalFoodCard onPressFav={() => handleFavourite(item)}  containerStyle={{ marginLeft: index === 0 ? SIZES.padding : 18,  marginRight: index === popular.length - 1 ? SIZES.padding : 0, padding: 18, }} item={item} onPress={() => console.log('VerticalFoodCard')} />
           )}
         />
       </Section>
