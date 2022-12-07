@@ -8,19 +8,19 @@ import FilterModal from "./Home/FilterModal"
 import FoodDetail from "./Food/FoodDetail"
 import ForgotPassword from "./Authentication/ForgotPassword"
 import Home from "./Home/Home"
+import Loading from "./Loading/Loading";
 import MainLayout from "./MainLayout"
 import Map from "./Delivery/Map"
 import MyCard from "./Card/MyCard"
 import MyCart from "./Cart/MyCart"
 import Notification from "./Notification/Notification"
 import OnBoarding from "./OnBoarding/OnBoarding"
-import Otp from "./Authentication/Otp"
 import Search from "./Search/Search";
 import SignIn from "./Authentication/SignIn"
 import SignUp from "./Authentication/SignUp"
 import Success from "./Cart/Success"
 
 export {
-    AuthLayout, AddCard, CartTab, Checkout, DeliveryStatus, Favourite, FilterModal, FoodDetail, ForgotPassword, Home, MainLayout,
-    Map, MyCard, MyCart, Notification, OnBoarding, Otp, Search, SignIn, SignUp, Success
+    AuthLayout, AddCard, CartTab, Checkout, DeliveryStatus, Favourite, FilterModal, FoodDetail, ForgotPassword, Home, Loading,
+    MainLayout, Map, MyCard, MyCart, Notification, OnBoarding, Search, SignIn, SignUp, Success
 }

@@ -1,11 +1,35 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { constants, dummyData, icons } from '../constants';
 import CustomDrawerItem from './CustomDrawerItem';
+import auth from '@react-native-firebase/auth'
+import database from '@react-native-firebase/database'
 import styles from '../styles/CustomDrawer.style'
 
 const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
+
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        getUsername()
+    }, [])
+
+    async function getUsername(){
+        const uid = auth().currentUser.uid;
+        await database()
+            .ref(`/users/${uid}`)
+            .once('value')
+            .then(snapshot => {
+                setUser(snapshot.val().username)
+        })
+    }
+
+    const handleLogout = () => {
+        auth()
+            .signOut()
+            .then(() => console.log('User signed out!'));
+    }
     return (
         <DrawerContentScrollView scrollEnabled={true} contentContainerStyle={styles.drawerContent}>
             <View style={styles.drawerContentView1}>
@@ -15,20 +39,20 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.profileButton} onPress={() => console.log('profile')}>
-                    <Image source={icons.profile} style={styles.profileIcon} />
+                    <Image source={dummyData.myProfile.profile_image} style={styles.profileIcon} />
                     <View style={styles.profileView}>
-                        <Text style={styles.profileText}>{dummyData.myProfile.name}</Text>
+                        <Text style={styles.profileText}>{user}</Text>
                         <Text style={styles.profileLink}>View your profile</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.drawerItemsContainer}>
-                    <CustomDrawerItem label={constants.screens.home} icon={icons.home} isFocused={selectedTab == constants.screens.home}
+                    <CustomDrawerItem label={constants.screens.home} icon={icons.home} isFocused={selectedTab === constants.screens.home}
                         onPress={() => { setSelectedTab(constants.screens.home); navigation.navigate('MainLayout') }} />
-                    <CustomDrawerItem label={constants.screens.my_wallet} icon={icons.wallet} isFocused={selectedTab == constants.screens.my_wallet}
+                    <CustomDrawerItem label={constants.screens.my_wallet} icon={icons.wallet} isFocused={selectedTab === constants.screens.my_wallet}
                         onPress={() => { setSelectedTab(constants.screens.my_wallet); navigation.navigate('MainLayout') }} />
-                    <CustomDrawerItem label={constants.screens.notification} icon={icons.notification} isFocused={selectedTab == constants.screens.notification}
+                    <CustomDrawerItem label={constants.screens.notification} icon={icons.notification} isFocused={selectedTab === constants.screens.notification}
                         onPress={() => { setSelectedTab(constants.screens.notification); navigation.navigate('MainLayout') }} />
-                    <CustomDrawerItem label={constants.screens.favourite} icon={icons.favourite} isFocused={selectedTab == constants.screens.favourite}
+                    <CustomDrawerItem label={constants.screens.favourite} icon={icons.favourite} isFocused={selectedTab === constants.screens.favourite}
                         onPress={() => { setSelectedTab(constants.screens.favourite); navigation.navigate('MainLayout') }} />
                     <View style={styles.divider} />
                     <CustomDrawerItem label='Track Your Order' icon={icons.location} isFocused={false} />
@@ -38,7 +62,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
                     <CustomDrawerItem label='Help Center' icon={icons.help} isFocused={false} />
                 </View>
                 <View style={styles.bottomDrawerItemsContainer}>
-                    <CustomDrawerItem label='Logout' icon={icons.logout} isFocused={false} />
+                    <CustomDrawerItem label='Logout' icon={icons.logout} isFocused={false} onPress={ handleLogout } />
                 </View>
             </View>
         </DrawerContentScrollView>
