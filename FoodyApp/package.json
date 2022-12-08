@@ -1,6 +1,6 @@
 {
   "name": "FoodyApp",
-  "version": "0.20.1",
+  "version": "0.21.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -28,6 +28,7 @@
     "react-native-reanimated": "^2.13.0",
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.2",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2"
