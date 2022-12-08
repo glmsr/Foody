@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ScrollView} from 'react-native';
 
 import {FONTS, COLORS, SIZES, icons, images, dummyData} from '../../constants';
-import {Header, TextButton, IconButton, CardQuantityButton, IconLabel, LineDivider, Rating, StepperInput} from '../../components'
+import {Header, TextButton, IconButton, CartQuantityButton, IconLabel, LineDivider, Rating, StepperInput} from '../../components'
 
 
 const FoodDetail = ({navigation}) => {
@@ -37,12 +37,13 @@ const FoodDetail = ({navigation}) => {
               height:20,
               tintColor:COLORS.gray2
             }}
-            onPress={() => console.log("Back") }
+            onPress={() => navigation.navigate("Home") }
           />
         }
         rightComponent={
-          <CardQuantityButton 
-          quantity={3} />
+          <CartQuantityButton 
+            quantity={3}
+          />
         }
        />
     );
