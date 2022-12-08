@@ -1,4 +1,5 @@
 
+import CardItem from './CardItem';
 import CartQuantityButton from './CartQuantityButton';
 import CustomSwitch from './CustomSwitch';
 import FooterTotal from './FooterTotal';
@@ -18,5 +19,5 @@ import Section  from "./Section";
 import StepperInput from './StepperInput';
 import VerticalFoodCard from './VerticalFoodCard';
 
-export { CustomSwitch, FooterTotal, FormInput, Header,IconButton, CartQuantityButton, IconLabel, LineDivider, HorizontalFoodCard, Section, SocialButton, TabButton, TextButton, TextIconButton, TwoPointSlider, Rating, StepperInput, VerticalFoodCard };
+export { CardItem, CustomSwitch, FooterTotal, FormInput, Header,IconButton, CartQuantityButton, IconLabel, LineDivider, HorizontalFoodCard, Section, SocialButton, TabButton, TextButton, TextIconButton, TwoPointSlider, Rating, StepperInput, VerticalFoodCard };
 
