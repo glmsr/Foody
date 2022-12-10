@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-import { FONTS, COLORS, SIZES, icons, images, dummyData } from "../../constants";
+import { FONTS, COLORS, icons, images } from "../../constants";
 import { Header, TextButton, IconButton, CartQuantityButton, IconLabel, LineDivider, Rating, StepperInput, } from "../../components";
 import styles from "../../styles/FoodDetail.style";
+import { useDispatch, useSelector } from "react-redux";
 
-const FoodDetail = ({ navigation }) => {
+const FoodDetail = (props) => {
 
-  const [foodItem, setFoodItem] = React.useState(dummyData.vegBiryani);
-  const [selectedSize, setSelectedSize] = React.useState(0);
-  const [qty, setQty] = React.useState(1);
+  const { item } = props.route.params;
+  const cartItem = item;
+  const id = item.id;
+  const [selectedSize, setSelectedSize] = useState(0);
+  const [qty, setQty] = useState(1);
+  const total = cartItem?.price * qty;
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cartReducer.cart);
+
+  const handleBuyNow = () => {
+    if (cart.find((x) => x.cartItem.id === cartItem.id)) {
+      const newQty = cart.find((x) => x.cartItem.id === cartItem.id).qty + qty;
+      const newTotal = cart.find((x) => x.cartItem.id === cartItem.id).total + total;
+      const id = cart.find(item => item.cartItem.id === cartItem.id).cartItem.id;
+      dispatch({ type: "UPDATE_CART", payload: { id, newQty, newTotal } });
+      dispatch({ type: "UPDATE_SUBTOTAL_SUB", payload: total });
+    } else {
+      dispatch({ type: "ADD_TO_CART", payload: { cartItem, id, qty, total } });
+      dispatch({ type: "UPDATE_SUBTOTAL_SUB", payload: total });
+    }
+    props.navigation.navigate("MyCart");
+  };
 
   function renderHeader() {
     return (
-      <Header title="DETAILS" containerStyle={styles.headerContainer} leftComponent={<IconButton icon={icons.back} containerStyle={styles.backButton} iconStyle={styles.backButtonIcon} onPress={() => navigation.navigate("Home")} />} rightComponent={<CartQuantityButton quantity={3} />} />
+      <Header title="DETAILS" containerStyle={styles.headerContainer}
+              leftComponent={<IconButton icon={icons.back} containerStyle={styles.backButton} iconStyle={styles.backButtonIcon} onPress={() => props.navigation.navigate("Home")} />}
+              rightComponent={<CartQuantityButton onPress={() => props.navigation.navigate("MyCart")} />} />
     );
   }
 
@@ -23,15 +45,15 @@ const FoodDetail = ({ navigation }) => {
           <View style={styles.caloriesFavouriteContainer}>
             <View style={styles.caloriesContainer}>
               <Image source={icons.calories} style={styles.caloriesIcon} />
-              <Text style={styles.caloriesText}>{foodItem?.calories} calories</Text>
+              <Text style={styles.caloriesText}>{cartItem?.calories} calories</Text>
             </View>
-            <Image source={icons.love} style={{ width: 20, height: 20, tintColor: foodItem?.isFavourite ? COLORS.primary : COLORS.gray }} />
+            <Image source={icons.love} style={{ width: 20, height: 20, tintColor: cartItem?.isFavourite ? COLORS.primary : COLORS.gray }} />
           </View>
-          <Image source={foodItem?.image} resizeMode="contain" style={styles.foodImage} />
+          <Image source={{ uri: cartItem?.image }} resizeMode="contain" style={styles.foodImage} />
         </View>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.foodNameText}>{foodItem?.name}</Text>
-          <Text style={styles.foodDescriptionText}>{foodItem?.description}</Text>
+          <Text style={styles.foodNameText}>{cartItem?.name}</Text>
+          <Text style={styles.foodDescriptionText}>{cartItem?.description}</Text>
           <View style={styles.ratingDurationContainer}>
             <IconLabel containerStyle={styles.ratingContainer} icon={icons.star} label="4.5" labelStyle={styles.ratingLabel} />
             <IconLabel containerStyle={styles.durationContainer} icon={icons.clock} iconStyle={styles.durationIcon} label="30Mins." />
@@ -40,9 +62,9 @@ const FoodDetail = ({ navigation }) => {
           <View style={styles.sizesContainer}>
             <Text style={styles.sizesText}>Sizes:</Text>
             <View style={styles.sizeButtonsContainer}>
-              {dummyData.sizes.map((item, index) => {
+              {cartItem?.sizes.map((sizeItem, index) => {
                 return (
-                  <TextButton  key={`Sizes-${index}`} buttonContainerStyle={[styles.sizeButtonContainer, { borderColor: selectedSize == item.id ? COLORS.primary : COLORS.gray2, backgroundColor: selectedSize == item.id ? COLORS.primary : null, }]} label={item.label} labelStyle={{ color: selectedSize == item.id ? COLORS.white : COLORS.gray2, ...FONTS.body2, }} onPress={() => setSelectedSize(item.id)} />
+                  <TextButton key={`Sizes-${index}`} buttonContainerStyle={[styles.sizeButtonContainer, { borderColor: selectedSize === sizeItem.id ? COLORS.primary : COLORS.gray2, backgroundColor: selectedSize === sizeItem.id ? COLORS.primary : null, }]} label={sizeItem.label} labelStyle={{ color: selectedSize === sizeItem.id ? COLORS.white : COLORS.gray2, ...FONTS.body2 }} onPress={() => setSelectedSize(sizeItem.id)} />
                 );
               })}
             </View>
@@ -56,7 +78,6 @@ const FoodDetail = ({ navigation }) => {
     return (
       <View style={styles.restaurantContainer}>
         <Image source={images.profile} style={styles.restaurantImage} />
-        {/* Info */}
         <View style={styles.infoContainer}>
           <Text style={styles.restaurantNameText}>FoodyApp user</Text>
           <Text>1.2 km away from you</Text>
@@ -70,7 +91,7 @@ const FoodDetail = ({ navigation }) => {
     return (
       <View style={styles.footerContainer}>
         <StepperInput value={qty} onAdd={() => setQty(qty + 1)} onMinus={() => {if (qty > 1) setQty(qty - 1);}} />
-        <TextButton buttonContainerStyle={styles.addToCartButton} label="Buy Now" label2="$20.00" onPress={() => navigation.navigate("MyCart")} />
+        <TextButton buttonContainerStyle={styles.addToCartButton} label="Buy Now" label2={total} onPress={handleBuyNow} />
       </View>
     );
   }

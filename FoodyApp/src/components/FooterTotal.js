@@ -2,10 +2,11 @@ import React from "react";
 import { Platform, Text, View, StyleSheet } from "react-native";
 import { LineDivider, TextButton } from "../components";
 import { COLORS, FONTS, SIZES } from "../constants";
+import { useSelector } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 
 const FooterTotal = ({ subTotal, shippingFee, total, onPress }) => {
-
+const cart = useSelector((state) => state.cartReducer.cart.length);
   return (
     <View>
       <LinearGradient
@@ -28,7 +29,7 @@ const FooterTotal = ({ subTotal, shippingFee, total, onPress }) => {
           <Text style={styles.totalLabel}>Total</Text>
           <Text style={styles.totalValue}>${total.toFixed(2)}</Text>
         </View>
-        <TextButton buttonContainerStyle={styles.checkoutButton} label="Order" onPress={onPress} />
+        <TextButton disabled={cart === 0} buttonContainerStyle={styles.checkoutButton} label="Place your Order" onPress={onPress} />
       </View>
     </View>
   );

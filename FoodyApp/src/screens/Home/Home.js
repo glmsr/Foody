@@ -5,16 +5,18 @@ import { FONTS, SIZES, COLORS, icons, dummyData } from "../../constants";
 import styles from "../../styles/Home.style";
 import database from "@react-native-firebase/database";
 import FilterModal from "./FilterModal";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(1);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedMenuType, setSelectedMenuType] = useState(0);
   const [menuList, setMenuList] = useState([]);
   const [recommends, setRecommends] = useState([]);
   const [popular, setPopular] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     handleChangeCategory(selectedCategoryId, selectedMenuType);
@@ -76,14 +78,8 @@ const Home = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.menuTypesContainer}
         renderItem={({ item, index }) => (
-          <TouchableOpacity
-            style={{ marginLeft: SIZES.padding, marginRight: index === menu.length - 1 ? SIZES.padding : 0 }}
-            onPress={() => {
-              setSelectedMenuType(item.id);
-              handleChangeCategory(selectedCategoryId, item.id);
-            }}>
-            <Text
-              style={{ color: selectedMenuType === item.id ? COLORS.primary : COLORS.black, ...FONTS.h3 }}> {item.name} </Text>
+          <TouchableOpacity style={{ marginLeft: SIZES.padding, marginRight: index === menu.length - 1 ? SIZES.padding : 0 }} onPress={() => {setSelectedMenuType(item.id);handleChangeCategory(selectedCategoryId, item.id);}}>
+            <Text style={{ color: selectedMenuType === item.id ? COLORS.primary : COLORS.black, ...FONTS.h3 }}> {item.name} </Text>
           </TouchableOpacity>
         )}
       />
@@ -110,7 +106,7 @@ const Home = () => {
               }}
               imageStyle={styles.recommendedImage}
               item={item}
-              onPress={() => console.log("HorizontalFoodCard")}
+              onPress={() => {navigation.navigate("FoodDetail", {item})}}
             />
           )}
         />
@@ -127,11 +123,7 @@ const Home = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <VerticalFoodCard onPressFav={() => handleFavourite(item)} containerStyle={{
-              marginLeft: index === 0 ? SIZES.padding : 18,
-              marginRight: index === popular.length - 1 ? SIZES.padding : 0,
-              padding: 18,
-            }} item={item} onPress={() => console.log("VerticalFoodCard")} />
+            <VerticalFoodCard onPressFav={() => handleFavourite(item)} containerStyle={{ marginLeft: index === 0 ? SIZES.padding : 18, marginRight: index === popular.length - 1 ? SIZES.padding : 0, padding: 18, }} item={item} onPress={() => navigation.navigate('FoodDetail', {item})} />
           )}
         />
       </Section>
@@ -205,7 +197,7 @@ const Home = () => {
         renderItem={({ item }) => {
           return (
             <HorizontalFoodCard containerStyle={styles.foodCardContainer} imageStyle={styles.foodCardImage} item={item}
-                                onPress={() => console.log("HorizontalFoodCard")} />
+                                onPress={() => navigation.navigate('FoodDetail', {item})} />
           );
         }}
         ListFooterComponent={<View style={styles.footerSpace} />}
