@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS, FONTS, SIZES, icons } from "../constants";
+import { useSelector } from "react-redux";
 
-const CartQuantityButton = ({ containerStyle, iconStyle, quantity, onPress }) => {
+const CartQuantityButton = ({ containerStyle, iconStyle, onPress }) => {
+  const quantity = useSelector((state) => state.cartReducer.cart.length);
   return (
     <TouchableOpacity style={[styles.container, containerStyle]} onPress={onPress}>
       <Image source={icons.cart} style={[styles.icon, iconStyle]} />
