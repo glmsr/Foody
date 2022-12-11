@@ -15,6 +15,7 @@ Our app is built with React Native, which allows us to offer a seamless and intu
 - 🎭 &nbsp; [Styled Components](https://styled-components.com/ 'Styled Components')
 - ⭐️ &nbsp; [State Management with Redux](https://redux.js.org/)
 - 🔥  &nbsp; [Firebase](https://firebase.google.com)
+- 🌎 &nbsp; [Google Maps](https://developers.google.com/maps)
 
 # 💫Features
 - Add your favourite meals to your favourite list
