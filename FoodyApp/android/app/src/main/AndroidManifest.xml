@@ -12,7 +12,7 @@
       android:theme="@style/AppTheme">
       <meta-data
      android:name="com.google.android.geo.API_KEY"
-     android:value=""/>
+     android:value="AIzaSyCvFRVJu0QTDm1_i46BafeIdqDmW3g5yNA"/>
      <!-- YOUR API KEY ^^^ HERE -->
   
     <!-- You will also only need to add this uses-library tag -->

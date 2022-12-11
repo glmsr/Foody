@@ -1,3 +1,4 @@
+#import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
 #import <Firebase.h> //FIREBASE INTEGRATION
 #import <React/RCTBridge.h>
@@ -15,7 +16,7 @@
 #import <ReactCommon/RCTTurboModuleManager.h>
 
 #import <react/config/ReactNativeConfig.h>
-#import <GoogleMaps/GoogleMaps.h>
+
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
@@ -32,8 +33,8 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyCvFRVJu0QTDm1_i46BafeIdqDmW3g5yNA"]; //GOOGLE MAPS INTEGRATION
   [FIRApp configure]; //FIREBASE INTEGRATION
-  [GMSServices provideAPIKey:@"_YOUR_API_KEY_"]; //GOOGLE MAPS INTEGRATION
   RCTAppSetupPrepareApp(application);
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
