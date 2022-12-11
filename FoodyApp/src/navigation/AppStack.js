@@ -8,9 +8,9 @@ const Stack = createNativeStackNavigator();
 const AppStack = () => {
   return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={CustomDrawer} />
         <Stack.Screen name="MyCard" component={MyCard} />
         <Stack.Screen name="AddCard" component={AddCard} />
-        <Stack.Screen name="Home" component={CustomDrawer} />
         <Stack.Screen name="FoodDetail" component={FoodDetail} />
         <Stack.Screen name="Checkout" component={Checkout} />
         <Stack.Screen name="MyCart" component={MyCart} />
