@@ -5,7 +5,7 @@ import { Header, LineDivider, TextButton, TextIconButton } from '../../component
 
 const DeliveryStatus = ({ navigation }) => {
 
-  const [currentStep, setCurrentStep] = React.useState(3)
+  const [currentStep, setCurrentStep] = React.useState(2)
 
 
   function renderHeader() { 
@@ -173,7 +173,7 @@ const DeliveryStatus = ({ navigation }) => {
               labelStyle={{
                 color: COLORS.primary,
               }}
-              onPress={() => navigation.navigate("FoodDetail")}
+              onPress={() => navigation.navigate("Home")}
             />
 
 

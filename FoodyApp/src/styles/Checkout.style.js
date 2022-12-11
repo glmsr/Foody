@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   deliveryAddressIcon: {
     width: 40,
     height: 40,
+    tintColor: COLORS.primary
   },
   deliveryAddressDescription: {
     marginLeft: SIZES.radius,
