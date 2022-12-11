@@ -9,6 +9,9 @@ const AppStack = () => {
   return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={CustomDrawer} />
+        <Stack.Screen name="MyCard" component={MyCard} />
+        <Stack.Screen name="AddCard" component={AddCard} />
+        <Stack.Screen name="Home" component={CustomDrawer} />
         <Stack.Screen name="FoodDetail" component={FoodDetail} />
         <Stack.Screen name="MyCart" component={MyCart} />
         <Stack.Screen name="AddCard" component={AddCard} />
