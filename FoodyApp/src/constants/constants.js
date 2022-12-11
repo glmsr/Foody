@@ -71,6 +71,6 @@ const track_order_status = [
     { id: 5, title: "Rate Us", sub_title: "Help us improve our service" }
 ]
 
-const GOOGLE_MAP_API_KEY = ""
+const GOOGLE_MAP_API_KEY = "AIzaSyCvFRVJu0QTDm1_i46BafeIdqDmW3g5yNA"
 
 export default { onboarding_screens, screens, bottom_tabs, delivery_time, ratings, tags, track_order_status, GOOGLE_MAP_API_KEY }

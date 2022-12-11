@@ -9,7 +9,7 @@ const TextButton = ({ buttonContainerStyle, label, loading, label2 = "", labelSt
         <Text> <ActivityIndicator color="white" /> </Text>
       </TouchableOpacity>
     ) : (
-      <TouchableOpacity style={[styles.buttonContainer, buttonContainerStyle, ]} onPress={onPress} disabled={disabled}>
+      <TouchableOpacity style={[styles.buttonContainer, buttonContainerStyle]} onPress={onPress} disabled={disabled}>
         <Text style={[styles.label, labelStyle]}>{label}</Text>
         {label2 !== "" &&
           <Text style={[styles.label2, label2Style]}> ${label2}</Text>

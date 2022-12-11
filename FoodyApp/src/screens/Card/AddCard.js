@@ -239,14 +239,14 @@ const AddCard = ({navigation, route}) => {
           paddingHorizontal: SIZES.padding,
         }}>
             <TextButton 
-              label="Add Card"
-              disabled={!isEnableAddCard()}
-              buttonContainerStyle={{
-                height: 60,
-                borderRadius: SIZES.radius,
-                backgroundColor: isEnableAddCard() ? COLORS.primary : COLORS.transparentPrimary
-              }}
-              onPress={() => navigation.goBack()}
+          label="Add Card"
+          disabled={!isEnableAddCard()}
+          buttonContainerStyle={{
+            height: 60,
+            borderRadius: SIZES.radius,
+            backgroundColor: isEnableAddCard() ? COLORS.primary : COLORS.transparentPrimary
+          }}
+          onPress={() => navigation.navigate("Checkout", { selectedCard: selectedCard })}
              />
         </View>
     )

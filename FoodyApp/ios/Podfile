@@ -2,15 +2,22 @@ $RNFirebaseAsStaticFramework=true #FIREBASE INTEGRATION
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 $RNFirebaseAsStaticFramework=true #FIREBASE INTEGRATION
-platform :ios, '12.4'
+platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'FoodyApp' do
   use_frameworks! :linkage => :static #FIREBASE INTEGRATION
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
   config = use_native_modules!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
+ # React Native Maps dependencies
+ 
+
 
   use_react_native!(
     :path => config[:reactNativePath],

@@ -1,3 +1,4 @@
+#import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
 #import <Firebase.h> //FIREBASE INTEGRATION
 #import <React/RCTBridge.h>
@@ -16,6 +17,7 @@
 
 #import <react/config/ReactNativeConfig.h>
 
+
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
@@ -31,6 +33,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyCvFRVJu0QTDm1_i46BafeIdqDmW3g5yNA"]; //GOOGLE MAPS INTEGRATION
   [FIRApp configure]; //FIREBASE INTEGRATION
   RCTAppSetupPrepareApp(application);
 
