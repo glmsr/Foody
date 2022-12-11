@@ -25,16 +25,14 @@ const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        selectedTab: state.tabReducer.selectedTab
-    }
-}
+const mapStateToProps = state => ({
+  selectedTab: state.tabReducer.selectedTab
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        setSelectedTab: (selectedTab) => { return dispatch(setSelectedTab(selectedTab)) }
-    }
-}
+const mapDispatchToProps = dispatch => ({
+  setSelectedTab: (selectedTab) => {
+    return dispatch(setSelectedTab(selectedTab))
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawer)

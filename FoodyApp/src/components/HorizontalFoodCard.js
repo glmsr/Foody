@@ -1,10 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
-
 import { COLORS, FONTS, icons, SIZES } from '../constants';
-
-
-
 
 const HorizontalFoodCard = ({ containerStyle, imageStyle, item, onPress }) => {
     return (

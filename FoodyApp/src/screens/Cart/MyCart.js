@@ -1,209 +1,96 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
-import { COLORS, FONTS, icons, SIZES, dummyData} from '../../constants'
-import { CartQuantityButton, Header, IconButton,  FooterTotal, StepperInput } from '../../components'
-import { SwipeListView } from 'react-native-swipe-list-view'
+import React, { useEffect, useState } from "react";
+import { View, Text, Image } from "react-native";
+import { icons } from "../../constants";
+import { CartQuantityButton, Header, IconButton, FooterTotal, StepperInput } from "../../components";
+import { SwipeListView } from "react-native-swipe-list-view";
+import styles from "../../styles/MyCart.style";
+import { useDispatch, useSelector } from "react-redux";
 
-const MyCart = ({ navigation }) => {
-  
-  const [myCartList, setMyCartList] = React.useState(dummyData.myCart)
+const MyCart = (props) => {
 
-  //Handler
+  const subTotal = useSelector(state => state.cartReducer.subTotal);
+  const cart = useSelector(state => state.cartReducer.cart);
+  const dispatch = useDispatch();
 
-  function updateQuantityHandler(newQty, id) {
-    const newCartList = myCartList.map(item => (
-      item.id === id ? { ...item, qty: newQty } : item
-    ))
-
-    setMyCartList(newCartList)
-      
+  function updateQuantityHandlerAdd(qty, id, price) {
+    const itemTotal = qty * price;
+    dispatch({ type: "UPDATE_CART", payload: { id, newQty: qty, newTotal: itemTotal } });
+    dispatch({ type: "UPDATE_SUBTOTAL_SUB", payload: price });
   }
-  
+
+  function updateQuantityHandlerMinus(qty, id, price) {
+    const itemTotal = qty * price;
+    dispatch({ type: "UPDATE_CART", payload: { id, newQty: qty, newTotal: itemTotal } });
+    dispatch({ type: "UPDATE_SUBTOTAL_MIN", payload: price });
+  }
+
   function removeMyCartHandler(id) {
-    let newCartList = [...myCartList]
-
-    const index = newCartList.findIndex(cart => cart.id === id)
-
-    newCartList.splice(index, 1)
-
-    setMyCartList(newCartList)
+    cart.find((item) => {
+      if (item.cartItem.id === id) {
+        dispatch({ type: "UPDATE_SUBTOTAL_MIN", payload: item.total });
+        dispatch({ type: "REMOVE_FROM_CART", payload: id });
+      }
+    });
   }
 
-
-  //Render
 
   function renderHeader() {
     return (
-      <Header
-        title="MY CART"
-        containerStyle={{
-          height: 50,
-          marginHorizontal: SIZES.padding,
-          marginTop: 40,
-        }}
-        leftComponent={
-          <IconButton
-            icon={icons.back}
-            containerStyle={{
-              width: 40,
-              height: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderWidth: 1,
-              borderRadius: SIZES.radius,
-              borderColor: COLORS.gray2
-            }}
-            iconStyle={{
-              width: 20,
-              height: 20,
-              tintColor: COLORS.gray2
-            }}
-            onPress={() => navigation.goBack()}
-          />
-        }
-        rightComponent={
-          <CartQuantityButton
-            quantity={3}
-          />
-        }
+      <Header title="MY CART" containerStyle={styles.headerContainer}
+              leftComponent={<IconButton icon={icons.back} containerStyle={styles.backButton}
+                                         iconStyle={styles.backButtonIcon} onPress={() => props.navigation.goBack()} />}
+              rightComponent={<CartQuantityButton />}
       />
-    )
+    );
+  }
 
-   }
-  
   function renderCartList() {
-
     return (
       <SwipeListView
-        data={myCartList}
+        data={cart}
         keyExtractor={item => `${item.id}`}
-        contentContainerStyle={{
-          marginTop: SIZES.radius,
-          paddingHorizontal: SIZES.padding,
-          paddingBottom: SIZES.padding * 2
-        }}
+        contentContainerStyle={styles.cartListContainer}
         disableRightSwipe={true}
         rightOpenValue={-75}
-        renderItem={(data, rowMap) => (
-          <View style={{
-            height: 100,
-            backgroundColor: COLORS.lightGray2,
-            ...styles.cartItemContainer
-          }}
-          >
-            {/* Food Image */}
-            <View
-              style={{
-                width: 90,
-                height: 100,
-                marginLeft: -10
-              }}
-            >
-
-              <Image
-                source={data.item.image}
-                resizeMode="contain"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute",
-                  top: 10
-                }}
-              />
-
-
+        renderItem={(data) => (
+          <View style={styles.cartItemContainer}>
+            <View style={styles.foodImageContainer}>
+              <Image source={{ uri: data?.item?.cartItem?.image }} resizeMode="contain" style={styles.foodImage} />
             </View>
-            {/* Food Info */}
-
-            <View
-              style={{
-                flex: 1
-              }}
-            >
-              <Text style={{ ...FONTS.body3 }}>{data.item.name}</Text>
-              <Text style={{ color: COLORS.primary, ...FONTS.h3 }}>${data.item.price}</Text>
+            <View style={styles.foodInfoContainer}>
+              <Text style={styles.foodName}>{data.item?.cartItem?.name}</Text>
+              <Text style={styles.foodPrice}>${data.item?.cartItem?.price}</Text>
             </View>
-            {/* Quantity */}
-            <StepperInput
-              containerStyle={{
-                height: 50,
-                width: 125,
-                backgroundColor: COLORS.white
-              }}
-              value={data.item.qty}
-              onAdd={() => updateQuantityHandler(data.item.qty + 1, data.item.id)}
-              onMinus={() => {
-                if (data.item.qty > 1) {
-                  updateQuantityHandler(data.item.qty - 1, data.item.id)
-                }
-              }}
+            <StepperInput containerStyle={styles.quantityContainer}
+                          value={data.item.qty}
+                          onAdd={() => updateQuantityHandlerAdd(data.item.qty + 1, data.item.id, data.item.cartItem.price)}
+                          onMinus={() => {if (data.item.qty > 1) {updateQuantityHandlerMinus(data.item.qty - 1, data.item.id, data.item.cartItem.price);}}}
             />
           </View>
         )}
-        renderHiddenItem={(data, rowMap) => (
+        renderHiddenItem={(data) => (
           <IconButton
-            containerStyle={{
-              flex: 1,
-              justifyContent: 'flex-end',
-              backgroundColor: COLORS.primary,
-              ...styles.cartItemContainer
-            }}
+            containerStyle={styles.deleteButtonContainer}
             icon={icons.delete_icon}
-            iconStyle={{
-              marginRight: 10
-            }}
+            iconStyle={styles.deleteButtonIcon}
             onPress={() => removeMyCartHandler(data.item.id)}
-
           />
         )}
       />
-    )
-
+    );
   }
-  
-  
-  
-  
-  
-  
-  
-  
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.white,
-        
-      }}
-    >
-      {/* Header */}
+    <View style={styles.container}>
       {renderHeader()}
-
-      {/* Cart List */}
       {renderCartList()}
-
-      {/* Footer */}
       <FooterTotal
-        subTotal={37.97}
+        subTotal={subTotal}
         shippingFee={0.00}
-        total={37.97}
-        onPress={() => navigation.navigate("MyCard")}
+        total={subTotal}
+        onPress={() => props.navigation.navigate("MyCard")}
       />
-
-
-
     </View>
-  )
-}
-
-export default MyCart
-
-const styles = StyleSheet.create({
-  cartItemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: SIZES.radius,
-    paddingHorizontal: SIZES.radius,
-    borderRadius: SIZES.radius
-  }
-})
+  );
+};
+export default MyCart;
