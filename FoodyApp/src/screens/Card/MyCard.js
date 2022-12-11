@@ -119,9 +119,9 @@ const MyCard = ({ navigation }) => {
           label={selectedCard?.key == "NewCard" ? "Add New Card" : "Place your Order"}
           onPress={() => {
             if (selectedCard?.key == "NewCard") {
-              navigation.navigate("AddCard", { selectedCard })
+              navigation.navigate("AddCard", { selectedCard : selectedCard })
             } else {
-              navigation.navigate("Checkout", { selectedCard })
+              navigation.navigate("Checkout", { selectedCard : selectedCard })
             }
           }}
         />
