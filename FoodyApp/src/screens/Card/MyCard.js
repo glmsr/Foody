@@ -60,10 +60,10 @@ const MyCard = ({ navigation }) => {
           buttonContainerStyle={{ height: 60, borderRadius: SIZES.radius, backgroundColor: selectedCard == null ? COLORS.gray2 : COLORS.primary }}
           label={selectedCard?.key === "NewCard" ? "Add New Card" : "Place your Order"}
           onPress={() => {
-            if (selectedCard?.key === "NewCard") {
-              navigation.navigate("AddCard", { selectedCard })
+            if (selectedCard?.key == "NewCard") {
+              navigation.navigate("AddCard", { selectedCard : selectedCard })         
             } else {
-              navigation.navigate("Checkout", { selectedCard })
+              navigation.navigate("Checkout", { selectedCard : selectedCard })
             }
           }}
         />
