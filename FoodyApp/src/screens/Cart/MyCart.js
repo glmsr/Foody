@@ -26,7 +26,7 @@ const MyCart = (props) => {
 
   function removeMyCartHandler(id) {
     cart.find((item) => {
-      if (item.cartItem.id === id) {
+      if (item.cartItem.key === id) {
         dispatch({ type: "UPDATE_SUBTOTAL_MIN", payload: item.total });
         dispatch({ type: "REMOVE_FROM_CART", payload: id });
       }
@@ -48,7 +48,7 @@ const MyCart = (props) => {
     return (
       <SwipeListView
         data={cart}
-        keyExtractor={item => `${item.id}`}
+        keyExtractor={item => `${item.key}`}
         contentContainerStyle={styles.cartListContainer}
         disableRightSwipe={true}
         rightOpenValue={-75}
