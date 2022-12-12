@@ -7,6 +7,10 @@ Welcome to the Foody, where you can browse and order from a variety of restauran
 Our app is built with React Native, which allows us to offer a seamless and intuitive user experience on both iOS and Android devices. We also prioritize security and offer a variety of payment options to ensure that your transactions are safe and secure.
 
  Bon appetit!
+ 
+ 
+https://user-images.githubusercontent.com/104725944/207053115-d0452478-8c56-43d0-8ece-4186a440070d.mp4
+
 
 
 # ⚒️Core Tech Stack
