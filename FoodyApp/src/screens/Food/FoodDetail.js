@@ -9,7 +9,7 @@ const FoodDetail = (props) => {
 
   const { item } = props.route.params;
   const cartItem = item;
-  const id = item.id;
+  const id = item.key;
   const [selectedSize, setSelectedSize] = useState(0);
   const [qty, setQty] = useState(1);
   const total = cartItem?.price * qty;
@@ -17,10 +17,10 @@ const FoodDetail = (props) => {
   const cart = useSelector(state => state.cartReducer.cart);
 
   const handleBuyNow = () => {
-    if (cart.find((x) => x.cartItem.id === cartItem.id)) {
-      const newQty = cart.find((x) => x.cartItem.id === cartItem.id).qty + qty;
-      const newTotal = cart.find((x) => x.cartItem.id === cartItem.id).total + total;
-      const id = cart.find(item => item.cartItem.id === cartItem.id).cartItem.id;
+    if (cart.find((x) => x.cartItem.key === cartItem.key)) {
+      const newQty = cart.find((x) => x.cartItem.key === cartItem.key).qty + qty;
+      const newTotal = cart.find((x) => x.cartItem.key === cartItem.key).total + total;
+      const id = cart.find(item => item.cartItem.key === cartItem.key).cartItem.key;
       dispatch({ type: "UPDATE_CART", payload: { id, newQty, newTotal } });
       dispatch({ type: "UPDATE_SUBTOTAL_SUB", payload: total });
     } else {
